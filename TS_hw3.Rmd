@@ -1,0 +1,346 @@
+---
+title: "CS 636 Homework 3"
+author: Trishala Suryavanshi
+        ts594@njit.edu
+output: html_notebook
+---
+
+##Question A
+###1
+```{r}
+Transaction_csv_file = read.csv(file = "/Users/trishala/Downloads/transactions.csv")
+head(Transaction_csv_file)
+##str(Transaction_csv_file)
+##table(Transaction_csv_file)
+
+```
+
+Numerical data in file(Total 6 features) : payment_method_id(column                                                    2),payment_plan_days(column 3),                                             plan_list_price(column 4),                                                  actual_amount_paid(column 5),                                               transaction_date(column 7),                                                 membership_expire_date =                                                    20160427(column 8)
+
+Categorical data in file(Total 3 features) : msno(column 1),            
+                                             is_auto_renew(column 6),                                                    is_cancel(column 9)
+
+###2
+```{r}
+hist(Transaction_csv_file$payment_method_id) #column 2
+hist(Transaction_csv_file$payment_plan_days) #column 3
+hist(Transaction_csv_file$plan_list_price) #column 4
+hist(Transaction_csv_file$actual_amount_paid) #column 5
+hist(Transaction_csv_file$transaction_date) #column 7
+hist(Transaction_csv_file$membership_expire_date) #column 8
+```
+
+
+###3
+```{r}
+table(Transaction_csv_file$msno) #column 1
+table(Transaction_csv_file$is_auto_renew) #column 6
+table(Transaction_csv_file$is_cancel) #column 9
+```
+
+
+##Question B
+##2.4
+```{r}
+library(UsingR)
+data(central.park)
+#str(central.park)
+#print(central.park)
+
+Table1 <- table(central.park$WX)
+Table1
+
+Table2 <- table(central.park$WX, exclude = F)
+Table2
+```
+
+Table1 is better than Table2 as Table2 counts no of "NA".
+
+##2.8
+```{r}
+data("npdb")
+#print(npdb)
+#str(npdb)
+
+Table1 = table(npdb$state)
+Table1
+
+Table1_max = sort(Table1)
+#which.max(Table1_max)
+
+Table1_max[which.max(Table1_max)]
+```
+
+CA (California) has the maximum awards 1566.
+
+##2.9
+```{r}
+attach(npdb)
+table(npdb$ID)
+table(ID)
+
+detach(npdb)
+```
+
+Unless the "npdb" dataset is not attached the table(ID) command gives the error that the ID is not found. After we attach the dataset, the outputs of table(npdb$ID) and table(ID) are same.
+
+##2.10
+```{r}
+data(MLBattend)
+attach(MLBattend)
+win =  wins[franchise == "NYA"]
+win 
+
+names(win) = c(1969:2000)
+win
+detach(MLBattend)
+barplot(win,xlab = "years", ylab = "wons")
+dotchart(win,  color = par("fg"), gcolor = par("fg"), lcolor = "gray" )
+```
+
+##2.16
+```{r}
+#1 
+sum(rivers < 500)/length(rivers)
+
+#2
+sum(rivers < mean(rivers))/length(rivers)
+
+#3
+quantile(rivers, probs = 0.75)
+```
+
+1.The proportion of rivers in North America shorter than 500 miles in length : 58%
+2. The proportion of rivers in North America shorter than the mean length : 66%.
+3. The 75th percentile of river is 680.
+
+##2.23
+```{r}
+data(npdb)
+#str(npdb$amount)
+summary(npdb$amount)
+mean(npdb$amount)
+median(npdb$amount)
+x <- npdb$amount
+f <- ecdf(x) #helps in getting percentile for mean
+#f(37500)
+f(166257.2)
+
+```
+
+Mean is 74.9th percentile.Mean lies in between second Q2(median) and third Q3 quartile. It is because the data in not normally distributed so the mean is not the 50th percentile value i.e the median.
+
+##2.30
+```{r}
+#1
+hist(bumpers)
+summary(bumpers)
+sd(bumpers)
+
+#2
+hist(firstchi)
+summary(firstchi)
+sd(firstchi)
+
+#3
+hist(math, xlim = c(30,80))
+summary(math)
+sd(math)
+```
+
+1. Guesses for bumpers : mean=2100, median=2200, standard deviation=650
+2. Guesses for firstchi : mean=23, median=23, standard deviation=5.5
+3. Guesses for math : mean=54, median=54, standard deviation=9
+
+##2.32
+```{r}
+data(pi2000)
+summary(pi2000)
+
+hist(pi2000, xlim  = c(0,10))
+hist(pi2000, breaks =c(0:10,.5))
+```
+
+Breaks argument adds a break point and gives the plot on the basic of density on y axis thats why breaks =c(0:10,.5) is used.
+
+##2.34
+```{r}
+data("DDT")
+#print(DDT)
+hist(DDT)
+boxplot(DDT)
+mean(DDT)
+sd(DDT)
+summary(DDT)
+```
+
+Guess : Mean = 3 , Median = 3.2, Standard deviation = 0.43
+
+##2.35
+```{r}
+area = state.area
+abb = state.abb
+names(area) = abb
+area #display areas of states with abbreviations
+
+#Percentage of Area of states which are less than New York
+area.less.NY = area[area < area[names(area) == "NY"]]
+percent.ny = (length(area.less.NY)/length(area))*100
+percent.ny
+
+#Percentage of Area of states which are less than New Jersey
+area.less.NJ = area[area < area[names(area) == "NJ"]]
+percent.nj = (length(area.less.NJ)/length(area))*100
+percent.nj
+
+hist(area)
+sort(area)
+
+boxplot(area)
+summary(area)
+```
+
+8% states have area less than New Jersey and 40% states have area less than New York. There are two outliers TX and AK.
+
+##2.36
+```{r}
+data("nym.2002")
+#print(nym.2002)
+hist(nym.2002)
+hist(nym.2002$time)
+```
+
+Histogrms depicts most of the people completed the race in aroud 200-300 mins. There are few runners above 80 who took time more than 400 mins and few runners below 25 who took time less than 200 mins. Histogram is right skewwed that means more runners took time more than 300 to 400 mins.
+
+##2.39
+```{r}
+data("hall.fame")
+#print(hall.fame)
+hist(hall.fame$HR)
+hist(hall.fame$BA)
+hist(hall.fame$OBP)
+```
+
+Histogram HR is right skewwed i.e right tail is longer.
+Histogram BA is normally distributed and there is no skewness.
+Histogram OBP is normally distributed and there is no skewness.
+
+##2.41
+```{r}
+x = rnorm(1000)
+#variations
+boxplot(x)
+boxplot(x, range = 0.5)
+boxplot(x, range = 1)
+boxplot(x, range = 1.5)
+boxplot(x, range = 2)
+```
+
+Boxplot whisker with range=1.5 is mostly used because a commonly used rule says that a data point is an outlier if it is more than 1.5. So range=1.5 usually covers the data and explicitly gives the outlier. 
+
+Outlier calculation : low outliers are below Q1 - 1.5*IQR 
+                      high outliers are above Q3 + 1.5*IQR
+
+##2.42
+```{r}
+summary(cfb$AGE)
+
+summary(cfb$EDUC)
+summary(cfb$NETWORTH)
+summary(log(cfb$SAVING+1))
+
+hist(cfb$EDUC)
+
+hist(cfb$NETWORTH)
+
+hist(log(cfb$SAVING+1))
+```
+
+1. Histogram EDUC : 
+Mode : Unimodel as one local maximum
+Symmetric : Not symmetric
+Tail : Left tail, left skewwed
+
+2. Histogram NETWORTH :
+Mode : Unimodel as one local maximum
+Symmteric : It is not symmteric and not normally distributed
+Tail : Right tail, right skewwed
+
+3. Histogram log(SAVINGS)+1 : 
+Mode : Bimodel as two local maximum
+Symmetric : It is symmetric and normally distributed with outlier
+Tail : No tail
+
+The distributions have this kinds of graph representation due to the huge variations in data. The histogram with log helped in converting tha data into normal distribution.
+
+##2.43
+```{r}
+data("brightness")
+hist(brightness)
+summary(brightness)
+sd(brightness)
+#outlier_lower = 7.702- (1.5*0.63) #IQR=0.63
+#outlier_lower
+#outlier_upper = 9.130+(1.5*0.63)
+#outlier_upper
+```
+
+The data in the histogram is normally distributed as the mean and median are approximately equal. There is are outliers; values which are less than 6.757 and values which are above 10.075 are outliers(using IQR upper and lower boundation formula). These are outliers because stars are light years away from earth so they can be far or near.
+
+##2.44
+```{r}
+par(mfrow=c(1,2))
+
+hist(lawsuits)
+hist(log(lawsuits))
+
+boxplot(lawsuits,ylab="Lawsuits")
+boxplot(log(lawsuits),ylab="log(lawsuits)")
+```
+
+Hstograms makes it difficult to compare the datasets and data is not reable as it is grouped thats why it is diffuclt to guess 50% of the data from histogram graph.
+Boxplots can tell us whether the distribution is symmetrical or skewed and if there are outliers in the data. The spacings between the different parts of a boxplot indicate the spread and skewness present in the data. The data is plotted in a way that the middle 50% of the data points fits inside the box, the bottom 25% of the data points located below the box and the top 25% of the data points located above the box. And so it is easy to guess the 50% of data. Eventually boxplots explicitly shows the outliers.
+
+##2.45
+```{r}
+hist(exec.pay)
+hist(log (1+exec.pay, 10))
+summary(exec.pay)
+summary(log (1+exec.pay, 10))
+```
+
+The log transformation of data makes it closer to normal distribution nad reduces skewness. It reduces the variability of data, especially in the data sets that include outlying observations. So the second histogram is better than first one. The first histogram due to spread of data making it diffcult to understand and is highly right skewwed.
+
+hist(log (1+exec.pay, 10)); this histogram gave a normal distribution to data as mean and median are approximately equal where as mean and median of untransformed data where different.
+
+##Question C
+###Lecture ques
+
+Find Pr(U|W) ?
+
+Ans : 
+Given Pr(R) = 0.8, Pr(R') = 0.2
+Pr(UW|R) = Pr(U|R)Pr(W|R)
+Pr(UW|R') = Pr(U|R')Pr(W|R')
+
+Using these equations :
+Pr(UW) = Pr(R)*Pr(UW|R) + 
+         Pr(R')*Pr(UW|R')
+       = Pr(R)*Pr(U|R)Pr(W|R) +
+         Pr(R')*Pr(U|R')Pr(W|R') #using the above equations
+       = 0.8 * 0.9 * 0.7 +
+         0.2 * 0.2 * 0.4
+Pr(UW) = 0.52
+
+Pr(W) = Pr(R)*Pr(W|R) +
+        Pr(R')*Pr(W|R')
+      = 0.8 * 0.7 +
+        0.2 * 0.4
+Pr(W) = 0.64
+
+Pr(U|W) = Pr(UW) / Pr(W)
+        = 0.52 / 0.64
+Pr(U|W) = 0.8125
+       
+       
+
